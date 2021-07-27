@@ -5,10 +5,10 @@ using System.Linq;
 using LibraryManagement.Services;
 namespace LibraryManagement.Services
 {
-    public class LibraryServices : ILibraryServices
+    public class BookServices : IBookServices
     {
         LibraryContext libraryContext;
-        public LibraryServices(LibraryContext _libraryContext)
+        public BookServices(LibraryContext _libraryContext)
         {
             libraryContext = _libraryContext;
         }

@@ -37,7 +37,9 @@ namespace Library_Management_Backend
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Library_Management_Backend", Version = "v1" });
             });
             services.AddDbContext<LibraryContext>();
-            services.AddScoped<ILibraryServices,LibraryServices>();
+            services.AddScoped<IAuthorServices,AuthorServices>();
+            services.AddScoped<IBookServices,BookServices>();
+            services.AddScoped<ICategoryServices,CategoryServices>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

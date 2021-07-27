@@ -7,39 +7,39 @@ namespace LibraryManagement.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ProductController : ControllerBase
+    public class BookController : ControllerBase
     {
-        private readonly ILibraryServices _libraryServices;
-        public ProductController(ILibraryServices libraryServices)
+        private readonly IBookServices _bookServices;
+        public BookController(IBookServices bookServices)
         {
-            _libraryServices = libraryServices;
+            _bookServices = bookServices;
         }
         [HttpGet("/api/book")]
         public List<BookModel> Get()
         {
-            var result = _libraryServices.GetBooks();
+            var result = _bookServices.GetBooks();
             return result;
         }
         [HttpGet("/api/book/{id}")]
         public BookModel GetById(int id)
         {
-            var result = _libraryServices.Get(id);
+            var result = _bookServices.Get(id);
             return result;
         }
         [HttpPost("/api/book")]
         public BookModel AddBook(BookDTO book)
         {
-            return  _libraryServices.Add(book);         
+            return  _bookServices.Add(book);         
         }
         [HttpPut("/api/book/{id}")]
         public BookModel UpdateBook(BookDTO book)
         {
-            return  _libraryServices.Update(book);         
+            return  _bookServices.Update(book);         
         }
         [HttpDelete("/api/book/{id}")]
         public IActionResult Delete(int id)
         {
-            _libraryServices.Delete(id);
+            _bookServices.Delete(id);
             return NoContent();
         }
 

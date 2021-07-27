@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using LibraryManagement.Models;
 namespace LibraryManagement.Services
 {
-    public interface ILibraryServices
+    public interface IBookServices
     {
         List<BookModel> GetBooks();
         BookModel Get(int id);
