@@ -22,7 +22,6 @@ D:\NashTech\Library-Management\Library-Management-Backend\bin\Debug\net5.0\Micro
 D:\NashTech\Library-Management\Library-Management-Backend\bin\Debug\net5.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 D:\NashTech\Library-Management\Library-Management-Backend\bin\Debug\net5.0\Microsoft.IdentityModel.Tokens.dll
 D:\NashTech\Library-Management\Library-Management-Backend\bin\Debug\net5.0\Microsoft.OpenApi.dll
-D:\NashTech\Library-Management\Library-Management-Backend\bin\Debug\net5.0\Newtonsoft.Json.dll
 D:\NashTech\Library-Management\Library-Management-Backend\bin\Debug\net5.0\Swashbuckle.AspNetCore.Swagger.dll
 D:\NashTech\Library-Management\Library-Management-Backend\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 D:\NashTech\Library-Management\Library-Management-Backend\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerUI.dll
@@ -59,3 +58,4 @@ D:\NashTech\Library-Management\Library-Management-Backend\obj\Debug\net5.0\Libra
 D:\NashTech\Library-Management\Library-Management-Backend\obj\Debug\net5.0\ref\Library-Management-Backend.dll
 D:\NashTech\Library-Management\Library-Management-Backend\obj\Debug\net5.0\Library-Management-Backend.pdb
 D:\NashTech\Library-Management\Library-Management-Backend\obj\Debug\net5.0\Library-Management-Backend.genruntimeconfig.cache
+D:\NashTech\Library-Management\Library-Management-Backend\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

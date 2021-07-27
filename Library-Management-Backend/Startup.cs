@@ -32,6 +32,7 @@ namespace Library_Management_Backend
 
             services.AddControllers();
             services.AddDbContext<LibraryContext>(options => options.UseSqlServer(Configuration.GetConnectionString("LibraryContext")));
+            services.AddDistributedMemoryCache();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Library_Management_Backend", Version = "v1" });
@@ -40,6 +41,9 @@ namespace Library_Management_Backend
             services.AddScoped<IAuthorServices,AuthorServices>();
             services.AddScoped<IBookServices,BookServices>();
             services.AddScoped<ICategoryServices,CategoryServices>();
+            services.AddScoped<IBorrowServices,BorrowServices>();
+            services.AddScoped<IAuthorServices,AuthorServices>();
+            services.AddScoped<IUserServices,UserServices>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

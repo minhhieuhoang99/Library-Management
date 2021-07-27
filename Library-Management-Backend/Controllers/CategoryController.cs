@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using LibraryManagement.Models;
 using LibraryManagement.Services;
+using System.Linq;
+
 namespace LibraryManagement.Controllers
 {
     [ApiController]
@@ -10,9 +12,11 @@ namespace LibraryManagement.Controllers
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryServices _categoryServices;
-        public CategoryController(ICategoryServices categoryServices)
+        private readonly IUserServices _userServices;
+        public CategoryController(ICategoryServices categoryServices ,IUserServices userServices)
         {
             _categoryServices = categoryServices;
+            _userServices = userServices;
         }
         [HttpGet("/api/category")]
         public List<Category> Get()
@@ -27,21 +31,69 @@ namespace LibraryManagement.Controllers
             return result;
         }
         [HttpPost("/api/category")]
-        public Category AddCategory(Category category)
+         public IActionResult AddCategory(Category category)
         {
-            return  _categoryServices.Add(category);         
+            int token = int.Parse(Request.Headers["Token"]);
+
+            var user = _userServices.GetUsers().SingleOrDefault(u => u.UserId == token);
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+            else if (user.Role == Role.SuperUser)
+            {
+                 _categoryServices.Add(category);
+                return Ok(category);
+            }
+            else
+            {
+                return StatusCode(403);
+            }
         }
+
         [HttpPut("/api/category/{id}")]
-        public Category UpdateCategory(Category category)
+        public IActionResult UpdateCategory(int id, Category category)
         {
-            return  _categoryServices.Update(category);         
+            if (!ModelState.IsValid) return null;
+
+            int token = int.Parse(Request.Headers["Token"]);
+
+            var user = _userServices.GetUsers().SingleOrDefault(u => u.UserId == token);
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+            else if (user.Role == Role.SuperUser)
+            {
+                _categoryServices.Update(category);
+                return Ok(category);
+            }
+            else
+            {
+                return StatusCode(403);
+            }
         }
         [HttpDelete("/api/category/{id}")]
         public IActionResult Delete(int id)
         {
-            _categoryServices.Delete(id);
-            return NoContent();
+            int token = int.Parse(Request.Headers["Token"]);
+
+            var user= _userServices.GetUsers().SingleOrDefault(u => u.UserId == token);
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+            else if (user.Role == Role.SuperUser)
+            {
+                _categoryServices.Delete(id);
+                return Ok();
+            } else
+            {
+                return StatusCode(403);
+            }
+           
         }
+
 
     }
 }
