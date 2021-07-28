@@ -1,9 +1,12 @@
 import HomePage from "./pages/HomePage";
+import Home from "./components/Home/Home";
+import NavBar from "./NavBar/NavBar";
+import AddBook from "./components/User/Super User/BookManager/AddBook"
 import CartContext from "./Context/CartContext";
 import UserContext from "./Context/UserContext";
 import axios from "axios";
 import "./App.css";
-import { useState , useEffect} from "react";
+import { useState, useEffect } from "react";
 import LoginPage from "./pages/LoginPage";
 import {
   BrowserRouter as Router,
@@ -22,7 +25,6 @@ const App = () => {
     if (token) {
       setCurrentUser(JSON.parse(token));
     }
-    
   }, []);
   useEffect(() => {
     const cart = localStorage.getItem("cart");
@@ -51,30 +53,30 @@ const App = () => {
 
   const handleBorrowBook = () => {
     const books = {
-      borrowRequestDetails: []
-    }
+      borrowRequestDetails: [],
+    };
     if (cart) {
       for (let item of cart) {
-        books.borrowRequestDetails.push(item.id)
+        books.borrowRequestDetails.push(item.id);
       }
 
       (async () => {
         axios({
           method: "post",
-          url: `https://localhost:44301/borrowRequests/${currentUser.username}`,
+          url: `https://localhost:44301/api/borrow/${currentUser.UserId}`,
           headers: authHeader(),
           data: books,
-        })
-          .catch((err) => {
-            if (err.response.status === 400) {
-              alert("Bạn chỉ được mượn tối đa 3 lần trong một tháng và mỗi lần chỉ được mượn 5 cuốn sách")
-            }
-          });
+        }).catch((err) => {
+          if (err.response.status === 400) {
+            alert(
+              "Bạn chỉ được mượn tối đa 3 lần trong một tháng và mỗi lần chỉ được mượn 5 cuốn sách"
+            );
+          }
+        });
       })();
     }
-
-  }
-  console.log(cart)
+  };
+  console.log(cart);
   let userLogin = null;
   let routeLink = null;
   if (currentUser !== null) {
@@ -83,7 +85,10 @@ const App = () => {
       routeLink = (
         <>
           <Route exact path="/admin">
-            <HomePage />
+            <HomePage/>
+          </Route>
+          <Route path="/admin/addBook">
+            <AddBook/>
           </Route>
         </>
       );
@@ -91,9 +96,7 @@ const App = () => {
       userLogin = <Redirect to="/" />;
       routeLink = (
         <>
-          <Route path="/borrowedBooks">
-
-          </Route>
+          <Route path="/borrowedBooks"></Route>
         </>
       );
     }
@@ -109,16 +112,15 @@ const App = () => {
       <UserContext.Provider value={{ currentUser, setCurrentUser }}>
         <CartContext.Provider value={{ cart, setCart }}>
           <div className="a">
-            {/* <Header /> */}
+            <NavBar />
             <Switch>
-              <Route path="/">{userLogin}</Route>
-              {routeLink}
+              <Route path="/">{userLogin}{routeLink}</Route>
             </Switch>
           </div>
         </CartContext.Provider>
       </UserContext.Provider>
     </Router>
   );
-}
+};
 
 export default App;

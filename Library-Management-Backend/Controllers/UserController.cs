@@ -24,7 +24,7 @@ namespace LibraryManagement.Controllers
         {
             _userServices = userServices;
         }
-        [HttpPost("login")]
+          [HttpPost("login")]
         public IActionResult Login (UserModel user)
         {
             var databaseUser = _userServices.GetUsers().SingleOrDefault(u => u.Username == user.Username && u.Password == user.Password);
