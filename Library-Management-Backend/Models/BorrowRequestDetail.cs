@@ -11,7 +11,6 @@ namespace LibraryManagement.Models
     public class BorrowRequestDetail
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int BorrowRequestId { get; set; }
         public int BookId { get; set; }
         public BookModel Book { get; set; }

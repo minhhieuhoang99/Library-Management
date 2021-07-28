@@ -6,7 +6,7 @@ using LibraryManagement.Services;
 namespace LibraryManagement.Services
 {
     public class UserServices : IUserServices
-    {
+    { 
         LibraryContext libraryContext;
         public UserServices(LibraryContext _libraryContext)
         {

@@ -11,12 +11,14 @@ namespace LibraryManagement.Controllers
     [Route("[controller]")]
     public class BorrowController : ControllerBase
     {
+        LibraryContext _libraryContext;
         private readonly IBorrowServices _borrowServices;
         private readonly IUserServices _userServices;
-        public BorrowController(IBorrowServices borrowServices, IUserServices userServices)
+        public BorrowController(IBorrowServices borrowServices, IUserServices userServices ,LibraryContext libraryContext ) 
         {
             _borrowServices = borrowServices;
             _userServices = userServices;
+            _libraryContext = libraryContext;
         }
 
         [HttpGet("/api/borrow")]
@@ -44,7 +46,7 @@ namespace LibraryManagement.Controllers
             return BadRequest("Đã xảy ra lỗi!");
         }
 
-        [HttpGet("/api/borrow/{id}")]
+        [HttpGet("/api/borrow/{borrowRequestId}")]
         public IActionResult GetBorrowRequestById(int borrowRequestId)
         {
             if (!ModelState.IsValid) return BadRequest("Đã xảy ra lỗi!");
@@ -75,21 +77,21 @@ namespace LibraryManagement.Controllers
             return BadRequest("Đã xảy ra lỗi!");
         }
 
-        [HttpPost("/api/borrow/{id}")]
+        [HttpPost("/api/borrow/{userId}")]
         public IActionResult Add( BorrowDTO borrow)
         {
             var checkBorrowInMonth = _borrowServices.GetBorrowRequests().Count(br => br.UserId == borrow.UserId && br.BorrowFromDate.Month == DateTime.Now.Month);
 
             if (checkBorrowInMonth < 3)
             {
-                // if (borrowRequest.BorrowRequestDetails.Count <= 5)
-                // {
-                //     _borrowServices.Add(borrow);
-                //     return Ok(borrow);
-                // }
-                // return BadRequest("Ban ko the muon 5 cuon sach 1 luc");
-                _borrowServices.Add(borrow);
+                if (_libraryContext.BorrowRequestDetails.Count(br => br.BorrowRequestId == borrow.Id) <= 5)
+                {
+                    _borrowServices.Add(borrow);
                     return Ok(borrow);
+                }
+                return BadRequest("Ban ko the muon 5 cuon sach 1 luc");
+                // _borrowServices.Add(borrow);
+                //     return Ok(borrow);
             }
             return BadRequest("Ban ko the muon qua 3 lan trong 1 thang");
         }
