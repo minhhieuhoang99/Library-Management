@@ -92,7 +92,7 @@ namespace LibraryManagement.Controllers
         {
             if (!ModelState.IsValid) return BadRequest("Co loi xay ra!");
 
-            string token = Request.Headers["token"];
+            string token = Request.Headers["Token"];
             if (token == null)
             {
                 return Unauthorized();
