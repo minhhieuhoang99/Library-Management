@@ -45,6 +45,14 @@ namespace LibraryManagement.Controllers
 
             return BadRequest("Đã xảy ra lỗi!");
         }
+        
+        [HttpGet("/api/borrowBy/{userId}")]
+        public IActionResult GetUserId(int userId)
+        {
+            var result = _borrowServices.GetBorrowRequests().Where(br=>br.UserId == userId);
+
+            return Ok(result);
+        }
 
         [HttpGet("/api/borrow/{borrowRequestId}")]
         public IActionResult GetBorrowRequestById(int borrowRequestId)
@@ -90,8 +98,6 @@ namespace LibraryManagement.Controllers
                     return Ok(borrow);
                 }
                 return BadRequest("Ban ko the muon 5 cuon sach 1 luc");
-                // _borrowServices.Add(borrow);
-                //     return Ok(borrow);
             }
             return BadRequest("Ban ko the muon qua 3 lan trong 1 thang");
         }
@@ -101,8 +107,8 @@ namespace LibraryManagement.Controllers
         {
             if (!ModelState.IsValid) return BadRequest("Co loi xay ra!");
 
-            // string token = Request.Headers["Token"];
-            string token = "1";
+            string token = Request.Headers["Token"];
+            // string token = "1";
             if (token == null) return Unauthorized();
 
             var user = _userServices.GetUsers().SingleOrDefault(u => u.UserId == int.Parse(token));
@@ -135,8 +141,8 @@ namespace LibraryManagement.Controllers
         {
             if (!ModelState.IsValid) return BadRequest("Co loi xay ra!");
 
-            // string token = Request.Headers["Token"];
-            string token = "1";
+            string token = Request.Headers["Token"];
+            // string token = "1";
             if (token == null) return Unauthorized();
 
             var user = _userServices.GetUsers().SingleOrDefault(u => u.UserId == int.Parse(token));
