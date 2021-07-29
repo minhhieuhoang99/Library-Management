@@ -93,6 +93,7 @@ namespace LibraryManagement.Controllers
             if (!ModelState.IsValid) return BadRequest("Co loi xay ra!");
 
             string token = Request.Headers["Token"];
+            // string token = "1";
             if (token == null)
             {
                 return Unauthorized();
@@ -121,8 +122,8 @@ namespace LibraryManagement.Controllers
         {
             if (!ModelState.IsValid) return BadRequest("Co loi xay ra!");
 
-            string token = Request.Headers["Token"];
-
+            // string token = Request.Headers["Token"];
+            string token = "1";
             if (token != null)
             {
                 var user = _userServices.GetUsers().SingleOrDefault(u => u.UserId == int.Parse(token));
@@ -134,7 +135,6 @@ namespace LibraryManagement.Controllers
                 {
                     if (book != null)
                     {
-
                         _bookServices.Update(book);
                         return Ok(book);
                     }

@@ -24,10 +24,10 @@ namespace LibraryManagement.Controllers
             var result = _categoryServices.GetCategories();
             return result;
         }
-        [HttpGet("/api/category/{id}")]
-        public Category GetById(int id)
+        [HttpGet("/api/category/{categoryId}")]
+        public Category GetById(int categoryId)
         {
-            var result = _categoryServices.Get(id);
+            var result = _categoryServices.Get(categoryId);
             return result;
         }
         [HttpPost("/api/category")]
@@ -51,8 +51,8 @@ namespace LibraryManagement.Controllers
             }
         }
 
-        [HttpPut("/api/category/{id}")]
-        public IActionResult UpdateCategory(int id, Category category)
+        [HttpPut("/api/category/{categoryId}")]
+        public IActionResult UpdateCategory(Category category)
         {
             if (!ModelState.IsValid) return null;
 
@@ -73,8 +73,8 @@ namespace LibraryManagement.Controllers
                 return StatusCode(403);
             }
         }
-        [HttpDelete("/api/category/{id}")]
-        public IActionResult Delete(int id)
+        [HttpDelete("/api/category/{categoryId}")]
+        public IActionResult Delete(int categoryId)
         {
             int token = int.Parse(Request.Headers["Token"]);
 
@@ -85,7 +85,7 @@ namespace LibraryManagement.Controllers
             }
             else if (user.Role == Role.SuperUser)
             {
-                _categoryServices.Delete(id);
+                _categoryServices.Delete(categoryId);
                 return Ok();
             } else
             {

@@ -63,9 +63,9 @@ namespace LibraryManagement.Services
                     existingBook.Title = book.Title;
                     existingBook.CategoryId = book.CategoryId;
                     existingBook.AuthorId = book.AuthorId;
+                    libraryContext.Books.Update(existingBook);
                     libraryContext.SaveChanges();
                     trancsaction.Commit();
-
                     return existingBook;
                 }
                 else

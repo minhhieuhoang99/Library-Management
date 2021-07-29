@@ -26,8 +26,8 @@ namespace LibraryManagement.Controllers
         {
             if (!ModelState.IsValid) return BadRequest("Co loi xay ra!");
 
-            string token = Request.Headers["Token"];
-
+            // string token = Request.Headers["Token"];
+            string token = "1";
             if (token == null) return Unauthorized();
 
             var user = _userServices.GetUsers().SingleOrDefault(u => u.UserId == int.Parse(token));
@@ -51,8 +51,8 @@ namespace LibraryManagement.Controllers
         {
             if (!ModelState.IsValid) return BadRequest("Đã xảy ra lỗi!");
 
-            string token = Request.Headers["Token"];
-
+            // string token = Request.Headers["Token"];
+            string token = "1";
             if (token == null) return Unauthorized();
 
             var user = _userServices.GetUsers().SingleOrDefault(u => u.UserId == int.Parse(token));
@@ -96,13 +96,13 @@ namespace LibraryManagement.Controllers
             return BadRequest("Ban ko the muon qua 3 lan trong 1 thang");
         }
 
-        [HttpPut("/api/borrow/approve/{id}")]
-        public IActionResult ApproveBorrowRequest(BorrowDTO borrow)
+        [HttpPut("/api/borrow/approve/{borrowRequestId}")]
+        public IActionResult ApproveBorrowRequest(int borrowRequestId)
         {
             if (!ModelState.IsValid) return BadRequest("Co loi xay ra!");
 
-            string token = Request.Headers["Token"];
-
+            // string token = Request.Headers["Token"];
+            string token = "1";
             if (token == null) return Unauthorized();
 
             var user = _userServices.GetUsers().SingleOrDefault(u => u.UserId == int.Parse(token));
@@ -111,25 +111,32 @@ namespace LibraryManagement.Controllers
 
             if (user.Role == Role.User) return StatusCode(403);
 
-            // var entity = _borrowServices.Get(borrow.Id);
+            var borrowRequest = _borrowServices.Get(borrowRequestId);
 
-            if (borrow != null)
+            if (borrowRequest != null)
             {
-                borrow.Status = (Status)1;
-                _borrowServices.Update(borrow);
-                return Ok(borrow);
+                borrowRequest.Status = (Status)1;
+                var newBorrow = new BorrowDTO
+                {
+                    Id = borrowRequest.BorrowRequestId,
+                    UserId = borrowRequest.UserId,
+                    BorrowFromDate = borrowRequest.BorrowFromDate,
+                    Status = borrowRequest.Status,
+                };
+                _borrowServices.Update(newBorrow);
+                return Ok(borrowRequest);
             }
 
-            return BadRequest("Hiện không có sách nào có id " + borrow.Id!);
+            return BadRequest("Hiện không có sách nào có id " + borrowRequestId!);
         }
 
-        [HttpPut("/api/borrow/reject/{id}")]
-        public IActionResult RejectBorrowRequest(BorrowDTO borrow)
+        [HttpPut("/api/borrow/reject/{borrowRequestId}")]
+        public IActionResult RejectBorrowRequest(int borrowRequestId)
         {
             if (!ModelState.IsValid) return BadRequest("Co loi xay ra!");
 
-            string token = Request.Headers["Token"];
-
+            // string token = Request.Headers["Token"];
+            string token = "1";
             if (token == null) return Unauthorized();
 
             var user = _userServices.GetUsers().SingleOrDefault(u => u.UserId == int.Parse(token));
@@ -139,14 +146,23 @@ namespace LibraryManagement.Controllers
             if (user.Role == Role.User) return StatusCode(403);
 
 
-            if (borrow != null)
+            var borrowRequest = _borrowServices.Get(borrowRequestId);
+
+            if (borrowRequest != null)
             {
-                borrow.Status = (Status)2;
-                _borrowServices.Update(borrow);
-                return Ok(borrow);
+                borrowRequest.Status = (Status)2;
+                var newBorrow = new BorrowDTO
+                {
+                    Id = borrowRequest.BorrowRequestId,
+                    UserId = borrowRequest.UserId,
+                    BorrowFromDate = borrowRequest.BorrowFromDate,
+                    Status = borrowRequest.Status,
+                };
+                _borrowServices.Update(newBorrow);
+                return Ok(borrowRequest);
             }
 
-            return BadRequest("Khong tim thay book co id la " + borrow.Id);
+            return BadRequest("Khong tim thay book co id la " + borrowRequestId);
         }
     }
 }

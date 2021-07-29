@@ -4,8 +4,8 @@ export const getCurrentUser = () => {
 
 export function authHeader() {
   const user = JSON.parse(localStorage.getItem("token"));
-  if (user && user.id) {
-    return { Token: user.id };
+  if (user && user.userId) {
+    return { Token: user.userId };
   } else {
     return {};
   }

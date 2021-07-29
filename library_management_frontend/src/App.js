@@ -1,6 +1,14 @@
 import HomePage from "./pages/HomePage";
-import Home from "./components/Home/Home";
 import NavBar from "./NavBar/NavBar";
+import BookManager from "./components/User/Super User/BookManager/BookManager"
+import EditBook from "./components/User/Super User/BookManager/EditBook"
+import DetailBook from "./components/User/Super User/BookManager/DetailBook"
+import BorrowManager from "./components/User/Super User/BorrowManager/BorrowManager"
+import DetailBorrow from "./components/User/Super User/BorrowManager/DetailBorrow"
+import CategoryManager from "./components/User/Super User/CategoryManager/CategoryManager"
+import DetailCategory from "./components/User/Super User/CategoryManager/DetailCategory"
+import EditCategory from "./components/User/Super User/CategoryManager/EditCategory"
+import AddCategory from "./components/User/Super User/CategoryManager/AddCategory"
 import AddBook from "./components/User/Super User/BookManager/AddBook"
 import CartContext from "./Context/CartContext";
 import UserContext from "./Context/UserContext";
@@ -85,10 +93,34 @@ const App = () => {
       routeLink = (
         <>
           <Route exact path="/admin">
-            <HomePage/>
+            <BookManager/>
           </Route>
           <Route path="/admin/addBook">
             <AddBook/>
+          </Route>
+          <Route path="/admin/detailBook/:bookId">
+            <DetailBook/>
+          </Route>
+          <Route path="/admin/editBook/:bookId">
+            <EditBook/>
+          </Route>
+          <Route path="/admin/borrowManager">
+            <BorrowManager />
+          </Route>
+          <Route path="/admin/detailBorrow/:borrowRequestId">
+            <DetailBorrow />
+          </Route>
+          <Route path="/admin/categoryManager">
+            <CategoryManager />
+          </Route>
+          <Route path="/admin/detailCategory/:categoryId">
+            <DetailCategory/>
+          </Route>
+          <Route path="/admin/editCategory/:categoryId">
+            <EditCategory/>
+          </Route>
+          <Route path="/admin/addCategory">
+            <AddCategory/>
           </Route>
         </>
       );
@@ -114,7 +146,9 @@ const App = () => {
           <div className="a">
             <NavBar />
             <Switch>
-              <Route path="/">{userLogin}{routeLink}</Route>
+              <Route path="/">{routeLink}</Route>
+              {userLogin}
+              {/* {routeLink} */}
             </Switch>
           </div>
         </CartContext.Provider>

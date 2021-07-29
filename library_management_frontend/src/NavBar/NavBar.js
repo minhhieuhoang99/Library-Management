@@ -12,10 +12,10 @@ const NavBar = ({ logout, isUserLoggedIn }) => {
             <Link to="/admin">Admin</Link>
           </Menu.Item>
           <Menu.Item key="2">
-            <Link to="/admin/addBook">Add Book</Link>
+            <Link to="/admin/borrowManager">Borrow Manager</Link>
           </Menu.Item>
           <Menu.Item key="3">
-            <Link to="/profile">Profile</Link>
+            <Link to="/admin/categoryManager">Category Manager</Link>
           </Menu.Item>
         </Menu>
       </Header>

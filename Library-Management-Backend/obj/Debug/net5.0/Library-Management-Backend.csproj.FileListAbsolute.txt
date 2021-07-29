@@ -59,3 +59,7 @@ D:\NashTech\Library-Management\Library-Management-Backend\obj\Debug\net5.0\ref\L
 D:\NashTech\Library-Management\Library-Management-Backend\obj\Debug\net5.0\Library-Management-Backend.pdb
 D:\NashTech\Library-Management\Library-Management-Backend\obj\Debug\net5.0\Library-Management-Backend.genruntimeconfig.cache
 D:\NashTech\Library-Management\Library-Management-Backend\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\NashTech\Library-Management\Library-Management-Backend\bin\Debug\net5.0\Microsoft.AspNetCore.JsonPatch.dll
+D:\NashTech\Library-Management\Library-Management-Backend\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+D:\NashTech\Library-Management\Library-Management-Backend\bin\Debug\net5.0\Newtonsoft.Json.dll
+D:\NashTech\Library-Management\Library-Management-Backend\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll

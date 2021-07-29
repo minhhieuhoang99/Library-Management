@@ -1,25 +1,36 @@
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { useState, useEffect } from "react";
-import { Form, Input, Button, Checkbox, Alert, Layout, Select } from "antd";
-// import styles from "./AddProduct.module.scss";
 import { authHeader } from "../../../../Services/AuthService";
-
+import { Form, Input, Button, Checkbox, Alert, Layout, Select } from "antd";
 const { Content, Footer } = Layout;
 const { Option } = Select;
-const AddBook = () => {
+const EditBook=()=> {
+  const [book, setBook] = useState([{
+    id : 0 ,
+    description: '',
+    image: '',
+    title: '',
+    authorId: 0,
+    categoryId: 0,
+  }]);
+  const [form] = Form.useForm();
   const [category, setCategory] = useState([]);
   const [author, setAuthor] = useState([]);
   const [message, setMessage] = useState("");
+  const { bookId } = useParams();
+
   const {
+    register,
+    handleSubmit,
     reset,
     formState: { errors },
   } = useForm();
-
+  
   const onFinishFailed = () => {
     console.log("Failed:");
   };
-
   const onFinish = (data) => {
     console.log("du lieu dau v",data)
     const categoryData = JSON.parse(data.category);
@@ -28,10 +39,11 @@ const AddBook = () => {
     const authorId = authorData.authorId;
     (async () => {
       axios({
-        method: "post",
-        url: "https://localhost:5001/api/book",
+        method: "put",
+        url: `https://localhost:5001/api/book/${bookId}`,
         headers: authHeader(),
         data: {
+          id : bookId ,
           description: data.description,
           image: data.image,
           title: data.title,
@@ -40,26 +52,12 @@ const AddBook = () => {
         },
       })
         .then((res) => {
-          reset();
-          setMessage("Add book successfully!");
+          console.log("onFinish")
+          setMessage("Update successfully!");
         })
         .catch((err) => console.log(err));
     })();
-  };
-
-  useEffect(() => {
-    (async () => {
-      axios({
-        method: "get",
-        url: "https://localhost:5001/api/category",
-        headers: authHeader(),
-      })
-        .then((res) => {
-          setCategory(res.data);
-        })
-        .catch((err) => console.log(err));
-    })();
-  }, []);
+  }
   useEffect(() => {
     (async () => {
       axios({
@@ -74,10 +72,59 @@ const AddBook = () => {
     })();
   }, []);
 
+  useEffect(() => {
+    (async () => {
+      axios({
+        method: "get",
+        url: "https://localhost:5001/api/category",
+        headers: authHeader(),
+      })
+        .then((res) => {
+          setCategory(res.data);
+        })
+        .catch((err) => console.log(err));
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      axios({
+        method: "get",
+        url: `https://localhost:5001/api/book/${bookId}`,
+        headers: authHeader(),
+      })
+      .then((res) => {
+        setBook(res.data);
+      })
+        .catch((err) => console.log(err));
+    })();
+  }, []);
+
+  useEffect(() => {
+    form.setFieldsValue({
+      description: book.description ,
+      image: book.image,
+      title: book.title,
+    });
+  }, []);
+
+  // const [form] = Form.useForm();
+  // useEffect(() => {
+  //   form.setFieldsValue({
+  //     demo: 'demo',
+  //     description: book.description,
+  //     image: book.image,
+  //     title: book.title,
+  //     authorId: book.authorId,
+  //     categoryId: book.categoryId,
+  //   });
+  // }, []);
+
   return (
     <Layout style={{ padding: "0 50px", minHeight: "100vh" }}>
       <div style={{ paddingTop: 50 }}></div>
       <Content>
+      {console.log("book data" , book.title)}
         <Form
           name="basic"
           labelCol={{
@@ -95,6 +142,7 @@ const AddBook = () => {
           <Form.Item
             name="title"
             label="Title"
+            
             rules={[
               {
                 required: true,
@@ -103,7 +151,8 @@ const AddBook = () => {
               },
             ]}
           >
-            <Input />
+            {/* {getFieldDecorator('name', { rules: rules.name })(<Input />)} */}
+            <Input/>
           </Form.Item>
           <Form.Item
             name="image"
@@ -181,6 +230,6 @@ const AddBook = () => {
       </Footer>
     </Layout>
   );
-};
+}
 
-export default AddBook;
+export default EditBook;

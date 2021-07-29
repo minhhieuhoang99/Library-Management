@@ -60,9 +60,9 @@ namespace LibraryManagement.Services
                     existing.UserId = borrow.UserId;
                     existing.BorrowFromDate = borrow.BorrowFromDate;
                     existing.Status = borrow.Status;
+                    libraryContext.BorrowRequests.Update(existing);
                     libraryContext.SaveChanges();
                     trancsaction.Commit();
-
                     return existing;
                 }
                 else

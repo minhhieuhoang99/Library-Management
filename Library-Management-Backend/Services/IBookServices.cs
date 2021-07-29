@@ -7,8 +7,8 @@ namespace LibraryManagement.Services
     {
         List<BookModel> GetBooks();
         BookModel Get(int id);
-        BookModel Add(BookDTO product);
-        BookModel Update(BookDTO product);
+        BookModel Add(BookDTO book);
+        BookModel Update(BookDTO book);
         int Delete(int id);
     }
 }
