@@ -1,7 +1,7 @@
 import { authHeader } from "../../../Services/AuthService";
 import { useEffect, useState, useContext } from "react";
 import axios from "axios";
-import { Table } from "antd";
+import { Table ,Space } from "antd";
 import UserContext from "../../../Context/UserContext";
 
 const ListStatus = () => {
@@ -21,6 +21,23 @@ const ListStatus = () => {
         console.log(error);
       });
   }, []);
+  const handleRequestStatus = (status) => {
+    if (status === 0) {
+      return (
+        <td style={{ color: "orange", fontWeight: 600, width: 100 }}>
+          Pending
+        </td>
+      );
+    } else if (status === 1) {
+      return (
+        <td style={{ color: "green", fontWeight: 600, width: 100 }}>Aprrove</td>
+      );
+    } else {
+      return (
+        <td style={{ color: "red", fontWeight: 600, width: 100 }}>Reject</td>
+      );
+    }
+  };
   const columns = [
     {
       title: "Borrow Date",
@@ -28,9 +45,12 @@ const ListStatus = () => {
       key: "borrowDate",
     },
     {
-      title: "Status",
+      title: "status",
       dataIndex: "status",
       key: "status",
+      render: (text, record) => (
+        <Space size="middle">{handleRequestStatus(record.status)}</Space>
+      ),
     },
   ];
   return (

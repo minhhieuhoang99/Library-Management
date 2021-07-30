@@ -2,94 +2,120 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { authHeader } from "../../../../Services/AuthService";
-import { Table ,Alert ,Spin ,Button , Space } from 'antd';
+import { Table, Alert, Spin, Button, Space } from "antd";
 import { useHistory } from "react-router-dom";
-const BorrowManager=()=> {
+const BorrowManager = () => {
   let history = useHistory();
   const [borrowRequests, setBorrowRequests] = useState();
   const [changes, setChanges] = useState(false);
-  
 
   const handleRejectRequest = (requestId) => {
-      axios({
-        method: "put",
-        url: `https://localhost:5001/api/borrow/reject/${requestId}`,
-        headers: authHeader(),
+    axios({
+      method: "put",
+      url: `https://localhost:5001/api/borrow/reject/${requestId}`,
+      headers: authHeader(),
+    })
+      .then(() => {
+        setChanges(!changes);
       })
-        .then(() => {
-          setChanges(!changes);
-        })
-        .catch((err) => console.log(err));
+      .catch((err) => console.log(err));
   };
-
+  const handleRequestStatus = (status) => {
+    if (status === 0) {
+      return (
+        <td style={{ color: "orange", fontWeight: 600, width: 100 }}>
+          Pending
+        </td>
+      );
+    } else if (status === 1) {
+      return (
+        <td style={{ color: "green", fontWeight: 600, width: 100 }}>Aprrove</td>
+      );
+    } else {
+      return (
+        <td style={{ color: "red", fontWeight: 600, width: 100 }}>Reject</td>
+      );
+    }
+  };
   const handleApproveRequest = (requestId) => {
-      axios({
-        method: "put",
-        url: `https://localhost:5001/api/borrow/approve/${requestId}`,
-        headers: authHeader(),
+    axios({
+      method: "put",
+      url: `https://localhost:5001/api/borrow/approve/${requestId}`,
+      headers: authHeader(),
+    })
+      .then(() => {
+        setChanges(!changes);
       })
-        .then(() => {
-          setChanges(!changes);
-        })
-        .catch((err) => console.log(err));
+      .catch((err) => console.log(err));
   };
 
   useEffect(() => {
-      axios({
-        method: "get",
-        url: "https://localhost:5001/api/borrow",
-        headers: authHeader(),
+    axios({
+      method: "get",
+      url: "https://localhost:5001/api/borrow",
+      headers: authHeader(),
+    })
+      .then((res) => {
+        console.log(res.data);
+        setBorrowRequests(res.data);
       })
-        .then((res) => {
-          console.log(res.data);
-          setBorrowRequests(res.data);
-          history.push("/admin");
-        })
-        .catch((err) => console.log(err));
+      .catch((err) => console.log(err));
   }, [changes]);
   const columns = [
     {
-        title: "borrowRequestId",
-        dataIndex: "borrowRequestId",
-        key: "borrowRequestId",
-      },
-      {
-        title: "userId",
-        dataIndex: "userId",
-        key: "userId",
-      },
-      {
-        title: "borrowFromDate",
-        dataIndex: "borrowFromDate",
-        key: "borrowFromDate",
-      },
-      {
-        title: "status",
-        dataIndex: "status",
-        key: "status",
-      },
-      {
-        title: "Action",
-        dataIndex: "Action",
-        key: "Action",
-        render: (text, record) => (
-          <Space size="middle">
-            <Button type="primary" >
-              <a href={`/admin/detailBorrow/${record.borrowRequestId}`}>View Detail</a>
+      title: "borrowRequestId",
+      dataIndex: "borrowRequestId",
+      key: "borrowRequestId",
+    },
+    {
+      title: "userId",
+      dataIndex: "userId",
+      key: "userId",
+    },
+    {
+      title: "borrowFromDate",
+      dataIndex: "borrowFromDate",
+      key: "borrowFromDate",
+    },
+    {
+      title: "status",
+      dataIndex: "status",
+      key: "status",
+      render: (text, record) => (
+        <Space size="middle">{handleRequestStatus(record.status)}</Space>
+      ),
+    },
+    {
+      title: "Action",
+      dataIndex: "Action",
+      key: "Action",
+      render: (text, record) => (
+        <Space size="middle">
+          <Button type="primary">
+            <a href={`/admin/detailBorrow/${record.borrowRequestId}`}>
+              View Detail
+            </a>
           </Button>
-            <Button disabled={record.status === 2 && true} type="primary" danger onClick={()=> handleRejectRequest(record.borrowRequestId)}>
+          <Button
+            disabled={record.status === 2 && true}
+            type="primary"
+            danger
+            onClick={() => handleRejectRequest(record.borrowRequestId)}
+          >
             Reject
-            </Button>
-            <Button disabled={record.status === 1 && true} type="primary"  onClick={()=> handleApproveRequest(record.borrowRequestId)}>
+          </Button>
+          <Button
+            disabled={record.status === 1 && true}
+            type="primary"
+            onClick={() => handleApproveRequest(record.borrowRequestId)}
+          >
             Approve
-            </Button>
-          </Space>
-        ),
-      },   
+          </Button>
+        </Space>
+      ),
+    },
   ];
-  return (
-    <Table dataSource={borrowRequests} columns={columns}/>
-  );
-}
+  return <Table dataSource={borrowRequests} columns={columns} />;
+};
 
 export default BorrowManager;

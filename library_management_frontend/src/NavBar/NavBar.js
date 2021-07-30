@@ -25,7 +25,7 @@ const NavBar = ({ logout, isUserLoggedIn }) => {
             <Link to="/admin">Admin</Link>
           </Menu.Item>
           <Menu.Item key="2">
-            <Link to="/admin/borrowManager">Borrow Manager</Link>
+          <Link to="/admin/borrowManager">Borrow Manager</Link>
           </Menu.Item>
           <Menu.Item key="3">
             <Link to="/admin/categoryManager">Category Manager</Link>
@@ -51,10 +51,10 @@ const NavBar = ({ logout, isUserLoggedIn }) => {
           <Menu.Item key={3}>
             <Link to="/bookcart">Cart ({cart.length})</Link>
           </Menu.Item>
-          <Menu.Item key="x" disabled danger>
-            <Button type="primary" shape="round" danger onClick={handleLogout}>
+          <Menu.Item key={4}>
+            <Link to="/logout" onClick={handleLogout}>
               Logout
-            </Button>
+            </Link>
           </Menu.Item>
         </Menu>
       </Header>
