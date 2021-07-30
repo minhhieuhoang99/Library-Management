@@ -4,9 +4,11 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { authHeader } from "../../../../Services/AuthService";
 import { Form, Input, Button, Checkbox, Alert, Layout, Select } from "antd";
+import { useHistory } from "react-router-dom";
 const { Content, Footer } = Layout;
 const { Option } = Select;
 const EditCategory=()=> {
+  let history = useHistory();
   const [form] = Form.useForm();
   const [category, setCategory] = useState([]);
   const [message, setMessage] = useState("");
@@ -33,6 +35,7 @@ const EditCategory=()=> {
         .then((res) => {
           console.log("onFinish")
           setMessage("Update successfully!");
+          history.push("/admin/categoryManager");
         })
         .catch((err) => console.log(err));
     })();

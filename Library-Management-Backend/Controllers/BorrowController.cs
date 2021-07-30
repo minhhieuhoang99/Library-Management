@@ -26,8 +26,8 @@ namespace LibraryManagement.Controllers
         {
             if (!ModelState.IsValid) return BadRequest("Co loi xay ra!");
 
-            // string token = Request.Headers["Token"];
-            string token = "1";
+            string token = Request.Headers["Token"];
+            // string token = "1";
             if (token == null) return Unauthorized();
 
             var user = _userServices.GetUsers().SingleOrDefault(u => u.UserId == int.Parse(token));
@@ -59,8 +59,8 @@ namespace LibraryManagement.Controllers
         {
             if (!ModelState.IsValid) return BadRequest("Đã xảy ra lỗi!");
 
-            // string token = Request.Headers["Token"];
-            string token = "1";
+            string token = Request.Headers["Token"];
+            // string token = "1";
             if (token == null) return Unauthorized();
 
             var user = _userServices.GetUsers().SingleOrDefault(u => u.UserId == int.Parse(token));

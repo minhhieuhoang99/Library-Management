@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { Form, Input, Button, Checkbox, Alert, Layout, Select } from "antd";
 // import styles from "./AddProduct.module.scss";
 import { authHeader } from "../../../../Services/AuthService";
@@ -8,6 +9,7 @@ import { authHeader } from "../../../../Services/AuthService";
 const { Content, Footer } = Layout;
 const { Option } = Select;
 const AddCategory = () => {
+  let history = useHistory();
   const [category, setCategory] = useState([]);
   const [author, setAuthor] = useState([]);
   const [message, setMessage] = useState("");
@@ -21,7 +23,6 @@ const AddCategory = () => {
   };
 
   const onFinish = (data) => {
-    (async () => {
       axios({
         method: "post",
         url: "https://localhost:5001/api/category",
@@ -35,9 +36,9 @@ const AddCategory = () => {
         .then((res) => {
           reset();
           setMessage("Add book successfully!");
+          history.push("/admin/categoryManager");
         })
         .catch((err) => console.log(err));
-    })();
   };
 
   return (

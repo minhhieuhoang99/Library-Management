@@ -40,20 +40,20 @@ namespace LibraryManagement.Controllers
             return BadRequest("KHÔNG TÌM THẤY SÁCH VỚI ID LÀ :" + id);
         }
 
-        [HttpGet("/api/borrowBooks")]
-        public IActionResult GetListBookOfBorrowRequest(int[] listBookId)
-        {
-            List<string> borrowBooks = new List<string>();
-            foreach (var bookId in listBookId)
-            {
-                var book = _bookServices.GetBooks().SingleOrDefault(b => b.BookId == bookId);
-                if (book != null)
-                {
-                    borrowBooks.Add(book.Title);
-                }
-            }
-            return Ok(borrowBooks);
-        }
+        // [HttpGet("/api/borrowBooks")]
+        // public IActionResult GetListBookOfBorrowRequest(int[] listBookId)
+        // {
+        //     List<string> borrowBooks = new List<string>();
+        //     foreach (var bookId in listBookId)
+        //     {
+        //         var book = _bookServices.GetBooks().SingleOrDefault(b => b.BookId == bookId);
+        //         if (book != null)
+        //         {
+        //             borrowBooks.Add(book.Title);
+        //         }
+        //     }
+        //     return Ok(borrowBooks);
+        // }
 
         [HttpDelete("/api/book/{id}")]
         public IActionResult Delete(int id)

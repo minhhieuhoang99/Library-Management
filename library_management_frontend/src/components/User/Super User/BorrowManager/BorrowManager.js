@@ -3,7 +3,9 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { authHeader } from "../../../../Services/AuthService";
 import { Table ,Alert ,Spin ,Button , Space } from 'antd';
+import { useHistory } from "react-router-dom";
 const BorrowManager=()=> {
+  let history = useHistory();
   const [borrowRequests, setBorrowRequests] = useState();
   const [changes, setChanges] = useState(false);
   
@@ -41,6 +43,7 @@ const BorrowManager=()=> {
         .then((res) => {
           console.log(res.data);
           setBorrowRequests(res.data);
+          history.push("/admin");
         })
         .catch((err) => console.log(err));
   }, [changes]);

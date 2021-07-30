@@ -1,12 +1,14 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { authHeader } from "../../../../Services/AuthService";
 import { Form, Input, Button, Checkbox, Alert, Layout, Select } from "antd";
 const { Content, Footer } = Layout;
 const { Option } = Select;
 const EditBook=()=> {
+  let history = useHistory();
   const [book, setBook] = useState([{
     id : 0 ,
     description: '',
@@ -21,13 +23,6 @@ const EditBook=()=> {
   const [message, setMessage] = useState("");
   const { bookId } = useParams();
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm();
-  
   const onFinishFailed = () => {
     console.log("Failed:");
   };
@@ -54,6 +49,7 @@ const EditBook=()=> {
         .then((res) => {
           console.log("onFinish")
           setMessage("Update successfully!");
+          history.push("/admin");
         })
         .catch((err) => console.log(err));
     })();
@@ -142,7 +138,7 @@ const EditBook=()=> {
           <Form.Item
             name="title"
             label="Title"
-            
+            initialValues = {{book}}
             rules={[
               {
                 required: true,

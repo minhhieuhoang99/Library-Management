@@ -66,7 +66,7 @@ const DetailBook = (props) => {
       <h1> Book details</h1> 
       <Table dataSource={book} columns={columns}  pagination={false}  />
       <Button type="primary" >
-      <Link to={`/admin/editBook/${bookId}`}>Edit Category</Link>
+      <Link to={`/admin/editBook/${bookId}`}>Edit Book</Link>
           </Button>
     </div>
   );

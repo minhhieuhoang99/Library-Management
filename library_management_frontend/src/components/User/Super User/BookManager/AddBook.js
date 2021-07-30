@@ -1,77 +1,68 @@
-import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { Form, Input, Button, Checkbox, Alert, Layout, Select } from "antd";
+import { Form, Input, Button, Layout, Select } from "antd";
 // import styles from "./AddProduct.module.scss";
+import { useHistory } from "react-router-dom";
 import { authHeader } from "../../../../Services/AuthService";
 
 const { Content, Footer } = Layout;
 const { Option } = Select;
 const AddBook = () => {
+  let history = useHistory();
   const [category, setCategory] = useState([]);
   const [author, setAuthor] = useState([]);
   const [message, setMessage] = useState("");
-  const {
-    reset,
-    formState: { errors },
-  } = useForm();
 
   const onFinishFailed = () => {
     console.log("Failed:");
   };
 
   const onFinish = (data) => {
-    console.log("du lieu dau v",data)
     const categoryData = JSON.parse(data.category);
-    const categoryId = categoryData.categoryId  ;
+    const categoryId = categoryData.categoryId;
     const authorData = JSON.parse(data.author);
     const authorId = authorData.authorId;
-    (async () => {
-      axios({
-        method: "post",
-        url: "https://localhost:5001/api/book",
-        headers: authHeader(),
-        data: {
-          description: data.description,
-          image: data.image,
-          title: data.title,
-          authorId: authorId,
-          categoryId: categoryId,
-        },
+    axios({
+      method: "post",
+      url: "https://localhost:5001/api/book",
+      headers: authHeader(),
+      data: {
+        description: data.description,
+        image: data.image,
+        title: data.title,
+        authorId: authorId,
+        categoryId: categoryId,
+      },
+    })
+      .then((res) => {
+        setMessage("Add book successfully!");
+        history.push("/admin");
       })
-        .then((res) => {
-          reset();
-          setMessage("Add book successfully!");
-        })
-        .catch((err) => console.log(err));
-    })();
+      .catch((err) => console.log(err));
+      
   };
 
   useEffect(() => {
-    (async () => {
-      axios({
-        method: "get",
-        url: "https://localhost:5001/api/category",
-        headers: authHeader(),
+    axios({
+      method: "get",
+      url: "https://localhost:5001/api/category",
+      headers: authHeader(),
+    })
+      .then((res) => {
+        setCategory(res.data);
       })
-        .then((res) => {
-          setCategory(res.data);
-        })
-        .catch((err) => console.log(err));
-    })();
+      .catch((err) => console.log(err));
   }, []);
   useEffect(() => {
-    (async () => {
-      axios({
-        method: "get",
-        url: "https://localhost:5001/api/author",
-        headers: authHeader(),
+    axios({
+      method: "get",
+      url: "https://localhost:5001/api/author",
+      headers: authHeader(),
+    })
+      .then((res) => {
+        setAuthor(res.data);
       })
-        .then((res) => {
-          setAuthor(res.data);
-        })
-        .catch((err) => console.log(err));
-    })();
+      .catch((err) => console.log(err));
   }, []);
 
   return (

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Table, Space, Button } from "antd";
+import { Table, Space, Button ,Alert ,Spin} from "antd";
 import { authHeader } from "../../../../Services/AuthService";
 const BookManager = () => {
   const [books, setBooks] = useState([]);
@@ -88,7 +88,15 @@ const handleDelete = (id) => {
       ),
     },
   ];
-
+  if (loading) {
+    return (<Spin tip="Loading...">
+    <Alert
+      message="Alert message title"
+      description="Further details about the context of this alert."
+      type="info"
+    />
+  </Spin>);
+  } else {
   return (
     <div>
       <div>
@@ -96,6 +104,6 @@ const handleDelete = (id) => {
       </div>
       <Table columns={columns} dataSource={books} />
     </div>
-  );
+  );}
 };
 export default BookManager;
